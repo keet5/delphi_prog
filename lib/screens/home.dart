@@ -241,23 +241,36 @@ class _HomeState extends State<Home> {
   }
 
   Widget buildLinePlot() {
-    return LineChart(
-      LineChartData(
-        lineBarsData: rows
-            .map(
-              (row) => LineChartBarData(
-                spots: row.data
-                    .asMap()
-                    .entries
-                    .map((e) => FlSpot(
-                        (e.key + _data.indexes.length - row.data.length)
-                            .toDouble(),
-                        e.value.toDouble()))
-                    .toList(),
-              ),
-            )
-            .toList(),
-      ),
+    return Column(
+      children: [
+        Flexible(
+          child: LineChart(
+            LineChartData(
+              lineBarsData: rows
+                  .asMap()
+                  .entries
+                  .map(
+                    (row) => LineChartBarData(
+                      colors: [
+                        Colors.primaries[row.key % Colors.primaries.length]
+                      ],
+                      spots: row.value.data
+                          .asMap()
+                          .entries
+                          .map((e) => FlSpot(
+                              (e.key +
+                                      _data.indexes.length -
+                                      row.value.data.length)
+                                  .toDouble(),
+                              e.value.toDouble()))
+                          .toList(),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
